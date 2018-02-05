@@ -1,8 +1,8 @@
 # iPingDou App Write In latest React-Native(0.52.2)
 
 ## ScreenShot
-<img width="200" src="http://o9kkuebr4.bkt.clouddn.com/iPingDouScreenshot1.jpeg">
-<img width="200" src="http://o9kkuebr4.bkt.clouddn.com/iPingDouScreenshot2.jpeg">
+<img style="display: inline-block;margin-right: 40px" width="200" src="http://o9kkuebr4.bkt.clouddn.com/iPingDouScreenshot1.jpeg">
+<img style="display: inline-block;margin-right: 40px" width="200" src="http://o9kkuebr4.bkt.clouddn.com/iPingDouScreenshot2.jpeg">
 
 ## Setup
 
