@@ -1,4 +1,4 @@
-import { AppRegistry } from 'react-native';
-import App from './view/App';
+import { AppRegistry } from 'react-native'
+import App from './view/App'
 
-AppRegistry.registerComponent('iPingDou', () => App);
+AppRegistry.registerComponent('iPingDou', () => App)

@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import {
   Platform,
+  StatusBar,
   StyleSheet,
   Text,
   View
@@ -22,9 +23,17 @@ const instructions = Platform.select({
 })
 
 export default class App extends Component<{}> {
+  constructor() {
+    super()
+  }
+
   render() {
     return (
-      <TabNav/>
+      <TabNav>
+        <View>
+          <StatusBar backgroundColor='#000000' barStyle='light-content' />
+        </View>
+      </TabNav>
     )
   }
 }

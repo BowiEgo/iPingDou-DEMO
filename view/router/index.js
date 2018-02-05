@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform } from 'react-native'
 
 import { TabNavigator } from 'react-navigation'
 import HomePage from '../pages/Home'
@@ -6,9 +7,10 @@ import DiscoverPage from '../pages/Discover'
 import StorePage from '../pages/Store'
 import UserPage from '../pages/User'
 
+import { screen } from '../common/utils'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 const myIcon = (iconName, color) => {
-  return (<Icon name={iconName} size={30} color={color} />)
+  return (<Icon name={iconName} size={20} color={color} />)
 }
 
 const TabNavConfig = (label, icon) => {
@@ -46,7 +48,25 @@ const TabNav = TabNavigator(
     tabBarOptions: {
       activeTintColor: '#ff9999',
       inactiveTintColor: '#c0c0c0',
-      style: { backgroundColor: '#ffffff' },
+      style: {
+        paddingBottom: 4,
+        ...Platform.select({
+          ios: {
+            borderTopWidth: 0.4,
+            borderTopColor: '#fff',
+            shadowColor: '#c0c0c0',
+            shadowOffset: {
+              width: 4,
+              height: 4,
+            },
+            shadowOpacity: 0.3,
+            shadowRadius: 10,
+          },
+          android: {
+          }
+        }),
+        backgroundColor: 'transparent',
+      },
     },
   }
 )

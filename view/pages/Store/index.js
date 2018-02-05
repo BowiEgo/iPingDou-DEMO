@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import {
+  StatusBar,
   StyleSheet,
   Text,
   View
 } from 'react-native'
-
 
 export default class StorePage extends Component {
   render() {
