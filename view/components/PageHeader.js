@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   Platform,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
 
 import { screen } from '../common/utils'
 
-export default class PageHeader extends Component {
+export default class PageHeader extends PureComponent {
   constructor() {
     super()
   }
