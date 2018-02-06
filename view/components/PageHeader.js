@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     // height: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   title: {
     marginHorizontal: 20,

@@ -95,11 +95,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     // backgroundColor: '#ff9999',
-    ...Platform.select({
-      ios: {
-        paddingTop: 30
-      }
-    })
+    paddingTop: 30
   },
   headerTitle: {
     color: '#ff9999',

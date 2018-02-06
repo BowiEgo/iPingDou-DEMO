@@ -59,11 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    ...Platform.select({
-      ios: {
-        paddingTop: 30
-      }
-    })
+    paddingTop: 30
   },
   headerContainer: {
     // position: 'absolute',
