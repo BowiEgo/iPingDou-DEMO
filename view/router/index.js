@@ -1,13 +1,14 @@
 import React from 'react'
 import { Platform } from 'react-native'
 
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 import HomePage from '../pages/Home'
 import DiscoverPage from '../pages/Discover'
 import StorePage from '../pages/Store'
 import UserPage from '../pages/User'
 
-import { screen } from '../common/utils'
+import SearchPage from '../pages/Search'
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 const myIcon = (iconName, color) => {
   return (<Icon name={iconName} size={20} color={color} />)
@@ -22,10 +23,21 @@ const TabNavConfig = (label, icon) => {
   }
 }
 
-const TabNav = TabNavigator(
+const HomeDrawerNav = StackNavigator(
   {
     Home: {
       screen: HomePage,
+    },
+    Search: {
+      screen: SearchPage
+    }
+  }
+)
+
+const TabNav = TabNavigator(
+  {
+    Home: {
+      screen: HomeDrawerNav,
       navigationOptions: TabNavConfig('首页', 'home')
     },
     Discover: {
@@ -71,4 +83,7 @@ const TabNav = TabNavigator(
   }
 )
 
-export default TabNav
+export {
+  TabNav,
+  HomeDrawerNav
+}

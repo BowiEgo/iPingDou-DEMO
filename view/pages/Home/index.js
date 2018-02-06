@@ -9,18 +9,22 @@ import {
   ScrollView,
   Platform
 } from 'react-native'
-// import GridRow from '@shoutem/ui'
 
 import { screen } from '../../common/utils'
-
 import { SearchBar } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/Ionicons'
 
+import StatusBarWithBg from '../../components/StatusBarWithBg'
+import PageHeader from '../../components/PageHeader'
 import HomeGridItem from './HomeGridItem'
 
 export default class HomePage extends Component {
-  
-  constructor() {
-    super()
+  static navigationOptions = ({ navigation }) => ({
+    header: null
+  })
+
+  constructor(props) {
+    super(props)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       cardData: ds.cloneWithRows(['1', '2', '3', '4', '5', '6']),
@@ -35,19 +39,35 @@ export default class HomePage extends Component {
     }
   }
 
+  // componentDidMount() {
+  //   this._navListener = this.props.navigation.addListener('didFocus', () => {
+  //     StatusBar.setBarStyle('light-content')
+  //     Platform.os === 'android' && StatusBar.setBackgroundColor('#ff9999')
+  //   })
+  // }
+  
+  // componentWillUnmount() {
+  //   this._navListener.remove()
+  // }
+
   render() {
+    const { navigate } = this.props.navigation
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor={'#ff9999'} barStyle='dark-content' />
-        
-        <SearchBar
-          showLoading
-          round
-          lightTheme
-          containerStyle={styles.searchBarContainer}
-          inputStyle={styles.searchBarInput}
-          placeholder='搜索' />
-        
+        <StatusBarWithBg backgroundColor="#fff" barStyle="dark-content"/>
+        <PageHeader
+          title="iPingDou"
+          titleStyle={styles.headerTitle}
+          headerRight={(
+            <Icon.Button
+              name="ios-search"
+              color="#ff9999"
+              size={24}
+              backgroundColor="transparent"
+              onPress={() => navigate('Search')}>
+            </Icon.Button>
+          )}
+        />
         <ListView 
           contentContainerStyle={styles.listContainer}
           initialListSize={4}
@@ -64,7 +84,6 @@ export default class HomePage extends Component {
             />
           }
         />
-        <Text></Text>
       </View>
     )
   }
@@ -75,25 +94,20 @@ const styles = StyleSheet.create({
     width: screen.width,
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#ff9999',
-    marginBottom: -14,
+    // backgroundColor: '#ff9999',
     ...Platform.select({
       ios: {
         paddingTop: 30
       }
     })
   },
-  searchBarContainer: {
-    width: screen.width,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    backgroundColor: '#ff9999',
-  },
-  searchBarInput: {
-    backgroundColor: '#fff'
+  headerTitle: {
+    color: '#ff9999',
+    fontSize: 18,
+    fontWeight: '500',
   },
   listContainer: {
-    backgroundColor: '#f6f6f6',
+    // backgroundColor: '#f6f6f6',
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,

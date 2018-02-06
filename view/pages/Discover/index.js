@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -7,6 +8,20 @@ import {
 } from 'react-native'
 
 export default class DiscoverPage extends Component {
+
+  componentDidMount() {
+    console.log(this.props.navigation)
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      console.log(this.props.navigation.state)
+      StatusBar.setBarStyle('dark-content')
+      Platform.os === 'android' && StatusBar.setBackgroundColor('#ff9999')
+    })
+  }
+  
+  componentWillUnmount() {
+    this._navListener.remove()
+  }
+
   render() {
     return (
       <View style={styles.container}>

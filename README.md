@@ -36,6 +36,17 @@ $ react-native run-android
 ```
 
 ## Troubleshooting
+1. **fix android error**:
+unable to load script from assets 'index.android bundle'  ,make sure your bundle is packaged correctly or youu're runing a packager server
+```
+/* if assets folder dosent exist */
+$ mkdir android/app/src/main/assets
+
+$ react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+$ react-native run-android
+```
+
 
 ## Dependency
 * [react-navigation](https://github.com/react-community/react-navigation)
