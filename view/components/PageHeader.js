@@ -16,7 +16,7 @@ export default class PageHeader extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Text 
+        <Text
           style={[styles.title, this.props.titleStyle]}>
           { this.props.title }
         </Text>

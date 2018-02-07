@@ -11,6 +11,15 @@ const screen = {
   statusBarHeight: (Platform.OS === 'ios' ? 20 : 0)
 }
 
+const sleep = (time) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
+
 export {
-  screen
+  screen,
+  sleep
 }

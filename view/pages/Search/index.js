@@ -5,7 +5,7 @@ import {
   Text,
   View
 } from 'react-native'
-import { screen } from '../../common/utils'
+import { screen, sleep } from '../../common/utils'
 
 import { SearchBar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -15,6 +15,7 @@ import StatusBarWithBg from '../../components/StatusBarWithBg'
 export default class SearchPage extends Component {
   static navigationOptions = {
     header: null,
+    tabBarVisible: false
   }
 
   constructor(props) {
@@ -23,6 +24,12 @@ export default class SearchPage extends Component {
   
   componentDidMount() {
     this.searchBar.focus()
+  }
+
+  async _routeBack() {
+    this.searchBar.blur()
+    await sleep(100)
+    this.props.navigation.goBack()
   }
 
   render() {
@@ -35,7 +42,7 @@ export default class SearchPage extends Component {
               name="ios-arrow-back"
               size={30}
               color={"#ff9999"}
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => this._routeBack()}
             />
           </View>
           <SearchBar
