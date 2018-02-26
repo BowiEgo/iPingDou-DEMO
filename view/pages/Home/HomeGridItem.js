@@ -10,12 +10,15 @@ import { screen } from '../../common/utils'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 
-export default class HomeGridItem extends Component {
+type Props = {
+  imageSource: String
+}
+
+export default class HomeGridItem extends Component<Props> {
 
   constructor(props) {
     super(props)
   }
-
 
   render() {
     return (

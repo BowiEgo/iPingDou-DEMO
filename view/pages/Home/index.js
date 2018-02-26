@@ -10,7 +10,10 @@ import {
   Platform
 } from 'react-native'
 
+import store from '../../redux/store'
 import { screen } from '../../common/utils'
+import colors from '../../common/colors'
+
 import { SearchBar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -18,7 +21,16 @@ import StatusBarWithBg from '../../components/StatusBarWithBg'
 import PageHeader from '../../components/PageHeader'
 import HomeGridItem from './HomeGridItem'
 
-export default class HomePage extends Component {
+type State = {
+  cardData: Array<any>,
+  imageMap: Object
+}
+
+type Props = {
+  navigation: Object
+}
+
+export default class HomePage extends Component<State, Props> {
   static navigationOptions = ({ navigation }) => ({
     header: null
   })
@@ -39,12 +51,14 @@ export default class HomePage extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   this._navListener = this.props.navigation.addListener('didFocus', () => {
-  //     StatusBar.setBarStyle('light-content')
-  //     Platform.os === 'android' && StatusBar.setBackgroundColor('#ff9999')
-  //   })
-  // }
+  componentDidMount() {
+    // this._navListener = this.props.navigation.addListener('didFocus', () => {
+    //   StatusBar.setBarStyle('light-content')
+    //   Platform.os === 'android' && StatusBar.setBackgroundColor(colors.mainThemeColor)
+    // })
+
+    console.log(store.getState())
+  }
   
   // componentWillUnmount() {
   //   this._navListener.remove()
@@ -61,7 +75,7 @@ export default class HomePage extends Component {
           headerRight={(
             <Icon.Button
               name="ios-search"
-              color="#ff9999"
+              color={colors.mainThemeColor}
               size={24}
               backgroundColor="transparent"
               onPress={() => navigate('Search')}>
@@ -94,11 +108,11 @@ const styles = StyleSheet.create({
     width: screen.width,
     flex: 1,
     alignItems: 'center',
-    // backgroundColor: '#ff9999',
+    // backgroundColor: colors.mainThemeColor,
     paddingTop: 30
   },
   headerTitle: {
-    color: '#ff9999',
+    color: colors.mainThemeColor,
     fontSize: 18,
     fontWeight: '500',
   },
