@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+//@flow
+
+import * as React from 'react'
 import {
   ActivityIndicator,
   FlatList,
@@ -17,21 +19,36 @@ const PaginationStatus = {
   allLoaded: 2
 }
 
-type State = {
-  dataSource: any[]
-}
-
 type Props = {
+  item: any,
   onFetch: Function,
 
-  imageSource: String,
-  emptyView: Function,
+  refreshableColors: string[],
+  refreshableProgressBackgroundColor: string[],
+  refreshableTintColor: string[],
+  refresableSize: number,
+  refreshableTitle: string,
 
+  imageSource: string,
+  emptyView: Function,
+  paginationFetchingView: Function,
+  paginationWaitingView: Function,
+  paginationAllLoadedView: Function,
+
+  allLoadedText: boolean,
   // Spinner
-  waitingSpinnerText: String,
+  waitingSpinnerText: string,
+
+  numColumns: number
 }
 
-export default class PullList extends Component<State, Props> {
+type State = {
+  dataSource: any[],
+  isRefreshing: boolean,
+  paginationStatus: number
+}
+
+export default class PullList extends React.Component<Props, State> {
   static defaultProps = {
     onFetch: null,
     
@@ -39,19 +56,25 @@ export default class PullList extends Component<State, Props> {
     waitingSpinnerText: 'Loading...',
   }
 
-  constructor(props) {
+  state = {
+    dataSource: [],
+    isRefreshing: false,
+    paginationStatus: PaginationStatus.firstLoad
+  }
+
+  mounted: boolean
+  page: number
+  rows: any[]
+  scrollView: React.ElementRef<typeof ScrollView>
+  _flatList: React.ElementRef<typeof FlatList>
+
+  constructor(props: Props) {
     super(props)
     this.setPage(1)
     this.setRows([])
-
-    this.state = {
-      dataSource: [],
-      isRefreshing: false,
-      paginationStatus: PaginationStatus.firstLoad
-    }
   }
 
-  _keyExtractor = (item, index) => index
+  _keyExtractor = (item: any, index: number ) => String(index)
 
   componentWillMount() {
     this.mounted = false
@@ -86,31 +109,31 @@ export default class PullList extends Component<State, Props> {
     }
   }
 
-  setPage = page => this.page = page
+  setPage = (page: number) => this.page = page
 
   getPage = () => this.page
 
-  setRows = rows => this.rows = rows
+  setRows = (rows: any) => this.rows = rows
 
   getRows = () => this.rows
 
-  scrollToOffset = option => {
+  scrollToOffset = (option: Object) => {
     this._flatList.scrollToOffset(option)  // Scroll to a specific content pixel offset in the list.(https://facebook.github.io/react-native/docs/flatlist.html#scrolltooffset)
   }
 
-  scrollToIndex = option => {
+  scrollToIndex = (option: Object) => {
     this._flatList.scrollToIndex(option)  // Scrolls to the item at the specified index such that it is positioned in the viewable area such that viewPosition 0 places it at the top, 1 at the bottom, and 0.5 centered in the middle.(https://facebook.github.io/react-native/docs/flatlist.html#scrolltoindex)
   }
 
-  scrollToItem = option => {
+  scrollToItem = (option: Object) => {
     this._flatList.scrollToItem(option)  // Requires linear scan through data - use scrollToIndex instead if possible.(https://facebook.github.io/react-native/docs/flatlist.html#scrolltoitem)
   }
 
-  scrollToEnd = option => {
+  scrollToEnd = (option: Object) => {
     this._flatList.scrollToEnd(option)  // Scrolls to the end of the content. May be janky without getItemLayout prop.(https://facebook.github.io/react-native/docs/flatlist.html#scrolltoend)
   }
 
-  postRefresh = (rows = [], pageLimit) => {
+  postRefresh = (rows: any[] = [], pageLimit: number) => {
     if (this.mounted) {
       console.log('postRefresh()')
       let paginationStatus = PaginationStatus.waiting
@@ -125,7 +148,7 @@ export default class PullList extends Component<State, Props> {
     console.log('endFetch()')
   }
 
-  postPaginate = (rows = [], pageLimit) => {
+  postPaginate = (rows: any[] = [], pageLimit: number) => {
     this.setPage(this.getPage() + 1)
     let mergedRows
     let paginationStatus
@@ -138,8 +161,8 @@ export default class PullList extends Component<State, Props> {
     this.updateRows(mergedRows, paginationStatus)
   }
 
-  updateRows = (rows, paginationStatus) => {
-    console.log(`updateRows(${rows})`)
+  updateRows = (rows: any[] = [], paginationStatus: number) => {
+    console.log(rows)
     console.log(`updateRows(${paginationStatus})`)
     if (rows) {
       this.setRows(rows)
@@ -196,7 +219,7 @@ export default class PullList extends Component<State, Props> {
     return null
   }
 
-  paginationWaitingView = paginateCallback => {
+  paginationWaitingView = (paginateCallback?: Function) => {
     console.log('paginationWaitingView()')
     if (this.props.paginationWaitingView) {
       return this.props.paginationWaitingView(paginateCallback)
@@ -216,7 +239,7 @@ export default class PullList extends Component<State, Props> {
     return !!this.props.header ? this.props.header : null
   }
 
-  renderItem = ({ item, index, separators }) => {
+  renderItem = ({ item, index, separators }: Object) => {
     return !!this.props.item ? this.props.item(item, index, separators) : null
   }
 
@@ -245,14 +268,10 @@ export default class PullList extends Component<State, Props> {
       return this.paginationAllLoadedView()
     }
 
-    return (
-      <View>
-        <Text></Text>
-      </View>
-    )
+    return null
   }
 
-  renderScrollComponent = props => {
+  renderScrollComponent = (props: Props) => {
     // return (
     //   <RefreshableScrollView
     //     {...props}
@@ -287,7 +306,7 @@ export default class PullList extends Component<State, Props> {
   render() {
     return (
       <FlatList
-        ref={ref => this._flatList = ref}
+        ref={(ref: any) => this._flatList = ref}
         keyExtractor={this._keyExtractor}
         renderScrollComponent={this.renderScrollComponent}
         onEndReachedThreshold={0.1}
@@ -298,7 +317,7 @@ export default class PullList extends Component<State, Props> {
         ListFooterComponent={this.renderFooter}
         ListEmptyComponent={this.renderEmpty}
         onEndReached={this.onEndReached}
-        refreshControl={this.renderRefreshControl()}
+        refreshControl={this.renderRefreshControl}
         numColumns={this.props.numColumns}
       />
     )
